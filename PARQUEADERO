@@ -1,4 +1,5 @@
-#include <string>
+#include <iostream>
+using namespace std;
 
 
 struct Carro {
@@ -128,32 +129,32 @@ Carro* sacarCarro(Carro** carros, std::string placa) {
     int costo_total = 0;
     bool encontrado = false;
 
-    // buscar el carro a sacar y calcular el costo de mover los carros que lo obstruyen
+    
     while (actual != NULL && !encontrado) {
         if (actual->placa == placa) {
             encontrado = true;
             carro_a_sacar = actual;
         } else {
-            costo_total += actual->costo_movimiento; // sumar el costo de movimiento
+            costo_total += actual->costo_movimiento; 
             actual = actual->siguiente;
         }
     }
 
-    // si no se encuentra el carro, retornar
+    
     if (!encontrado) {
         printf("el carro con placa %s no se encuentra en el estacionamiento.\n", placa.c_str());
         return *carros;
     }
 
-    // si el carro a sacar es el primero, no se mueven carros y solo se cobra el estacionamiento
+    
     if (carro_a_sacar == *carros) {
         costo_total = carro_a_sacar->precio;
     } else {
-        // si se movieron carros, se suma el costo de movimiento una sola vez
+        
         costo_total += carro_a_sacar->precio;
     }
 
-    // desconectar el carro a sacar de la lista
+    
     if (carro_a_sacar == *carros) {
         *carros = carro_a_sacar->siguiente;
     } else {
@@ -165,9 +166,9 @@ Carro* sacarCarro(Carro** carros, std::string placa) {
     }
 
     printf("el costo total a pagar es de: %d\n", costo_total);
-    free(carro_a_sacar); // liberar la memoria del carro a sacar
+    free(carro_a_sacar); 
 
-    return *carros; // retornar la lista actualizada de carros
+    return *carros; 
 }
 
 Moto* sacarMoto(Moto** motos, std::string placa) {
@@ -181,7 +182,7 @@ Moto* sacarMoto(Moto** motos, std::string placa) {
     int costo_total = 0;
     bool encontrado = false;
 
-    // buscar la moto a sacar
+    
     while (actual != NULL && !encontrado) {
         if (actual->placa == placa) {
             encontrado = true;
@@ -191,33 +192,33 @@ Moto* sacarMoto(Moto** motos, std::string placa) {
         }
     }
 
-    // si no se encuentra la moto, retornar
+    
     if (!encontrado) {
         printf("la moto con placa %s no se encuentra en el estacionamiento.\n", placa.c_str());
         return *motos;
     }
 
-    // mover las motos que estan bloqueando la salida
+    
     Moto* temp = *motos;
     while (temp != actual) {
-        costo_total += temp->costo_movimiento; // sumar el costo de movimiento
+        costo_total += temp->costo_movimiento; 
         temp = temp->siguiente;
     }
 
-    // sacar la moto deseada
+    
     if (anterior != NULL) {
         anterior->siguiente = actual->siguiente;
     } else {
         *motos = actual->siguiente;
     }
 
-    // cobrar solo una vez por mover las motos, no por cada moto movida
-    costo_total += actual->precio; // sumar el precio del estacionamiento de la moto a sacar
+    
+    costo_total += actual->precio; 
 
     printf("el costo total a pagar es de: %d\n", costo_total);
-    free(actual); // liberar la memoria de la moto a sacar
+    free(actual); 
 
-    return *motos; // retornar la lista actualizada de motos
+    return *motos; 
 
 }
 
